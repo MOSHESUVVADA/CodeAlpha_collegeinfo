@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Chatbot - College Info</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f4f6f9;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+/* Navbar */
+
+.navbar{
+    background:#0d6efd;
+}
+
+.navbar-brand,
+.nav-link{
+    color:white !important;
+}
+
+/* Chat Area */
+
+.chat-container{
+    flex:1;
+    overflow-y:auto;
+    padding:20px;
+}
+
+.message{
+    max-width:75%;
+    padding:12px 16px;
+    margin-bottom:15px;
+    border-radius:15px;
+}
+
+.bot{
+    background:white;
+    border:1px solid #ddd;
+}
+
+.user{
+    background:#0d6efd;
+    color:white;
+    margin-left:auto;
+}
+
+/* Input Area */
+
+.chat-input{
+    background:white;
+    padding:15px;
+    border-top:1px solid #ddd;
+}
+
+.input-group textarea{
+    resize:none;
+}
+
+/* Welcome Card */
+
+.welcome-card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.quick-btn{
+    margin:5px;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- Navbar -->
+
+<nav class="navbar navbar-expand-lg">
+
+<div class="container">
+
+<a class="navbar-brand" href="index.html">
+🎓 College Info AI
+</a>
+
+<ul class="navbar-nav ms-auto">
+<li class="nav-item">
+<a class="nav-link" href="index.html">Home</a>
+</li>
+</ul>
+
+</div>
+
+</nav>
+
+<!-- Chat Container -->
+
+<div class="chat-container" id="chatContainer">
+
+<div class="welcome-card">
+
+<h3>🤖 College Info Assistant</h3>
+
+<p>
+Ask me anything about:
+</p>
+
+<ul>
+<li>Engineering Colleges</li>
+<li>Courses</li>
+<li>Placements</li>
+<li>Fees Structure</li>
+<li>Admissions</li>
+<li>Career Guidance</li>
+</ul>
+
+<div>
+
+<button class="btn btn-outline-primary quick-btn"
+onclick="sendQuickMessage('Best CSE colleges in AP')">
+Best CSE Colleges
+</button>
+
+<button class="btn btn-outline-success quick-btn"
+onclick="sendQuickMessage('Highest package colleges')">
+Highest Packages
+</button>
+
+<button class="btn btn-outline-danger quick-btn"
+onclick="sendQuickMessage('AI & ML colleges')">
+AI & ML Colleges
+</button>
+
+</div>
+
+</div>
+
+<div class="message bot">
+👋 Hello! I am your College Info AI Assistant.
+How can I help you today?
+</div>
+
+</div>
+
+<!-- Input Area -->
+
+<div class="chat-input">
+
+<div class="container">
+
+<div class="input-group">
+
+<textarea
+id="userInput"
+class="form-control"
+rows="2"
+placeholder="Ask about colleges, courses, placements..."
+></textarea>
+
+<button
+class="btn btn-primary"
+onclick="sendMessage()">
+Send
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function sendMessage(){
+
+let input =
+document.getElementById("userInput");
+
+let message =
+input.value.trim();
+
+if(message === "")
+return;
+
+let chat =
+document.getElementById("chatContainer");
+
+/* User Message */
+
+chat.innerHTML += `
+<div class="message user">
+${message}
+</div>
+`;
+
+/* Simple Bot Response */
+
+let response =
+getBotResponse(message);
+
+setTimeout(() => {
+
+chat.innerHTML += `
+<div class="message bot">
+${response}
+</div>
+`;
+
+chat.scrollTop =
+chat.scrollHeight;
+
+},500);
+
+input.value="";
+
+}
+
+/* Quick Buttons */
+
+function sendQuickMessage(text){
+
+document.getElementById("userInput").value=text;
+
+sendMessage();
+
+}
+
+/* Demo Responses */
+
+function getBotResponse(message){
+
+message =
+message.toLowerCase();
+
+if(message.includes("best cse")){
+
+return `
+Top CSE Colleges in AP:
+
+1. JNTU Kakinada
+2. Andhra University
+3. SRKR Engineering College
+4. VVIT
+5. RVR & JC
+`;
+}
+
+if(message.includes("package")){
+
+return `
+Highest placement packages can vary by year.
+
+Top colleges often report:
+
+JNTUK - ₹44 LPA+
+AU - ₹35 LPA+
+SRKR - ₹25 LPA+
+`;
+}
+
+if(message.includes("ai")){
+
+return `
+Popular AI & ML Colleges:
+
+• JNTU Kakinada
+• Andhra University
+• VVIT
+• SRKR
+`;
+}
+
+if(message.includes("fees")){
+
+return `
+Engineering fees generally range between:
+
+₹40,000 - ₹1,50,000 per year
+
+depending on the college.
+`;
+}
+
+return `
+I understand your question.
+
+Once Gemini API/OpenAI API is connected,
+I can provide detailed real-time answers.
+`;
+}
+
+</script>
+
+</body>
+</html>

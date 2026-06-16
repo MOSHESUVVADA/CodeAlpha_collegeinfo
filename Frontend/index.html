@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Info — AP Engineering Colleges Guide</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --primary:#2563eb;
+  --primary-dark:#1d4ed8;
+  --violet:#7c3aed;
+  --pink:#ec4899;
+  --cyan:#06b6d4;
+  --amber:#f59e0b;
+  --ink:#1e293b;
+  --muted:#64748b;
+  --bg-soft:#eef2ff;
+  --card-radius:16px;
+}
+*{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+h1,h2,h3,h4,h5,.navbar-brand,.btn{ font-family:'Poppins',sans-serif; }
+body{ background:linear-gradient(135deg,#eef2ff,#dbeafe); overflow-x:hidden; color:var(--ink); }
+
+/* Navbar */
+.navbar{ background:linear-gradient(90deg,var(--primary),var(--violet)); box-shadow:0 5px 20px rgba(0,0,0,.15); }
+.navbar-brand{ color:#fff !important; font-weight:700; font-size:1.7rem; letter-spacing:.5px; }
+.navbar-brand span{ color:var(--amber); }
+.nav-link{ color:#fff !important; margin-left:10px; font-weight:500; transition:.3s; }
+.nav-link:hover{ color:#ffd43b !important; transform:translateY(-2px); }
+
+/* Hero */
+.hero{ background:linear-gradient(-45deg,var(--primary),var(--violet),var(--pink),var(--cyan)); background-size:400% 400%; animation:gradientMove 12s ease infinite; color:white; padding:120px 20px 90px; text-align:center; }
+@keyframes gradientMove{ 0%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } 100%{ background-position:0% 50%; } }
+.hero h1{ font-size:4rem; font-weight:800; text-shadow:0 5px 15px rgba(0,0,0,.3); }
+.hero p{ font-size:1.2rem; opacity:.95; }
+
+/* Search box */
+.search-box{ max-width:650px; margin:auto; position:relative; }
+.search-box input{ height:55px; border:none; border-radius:50px 0 0 50px; padding-left:25px; }
+.search-box input:focus{ box-shadow:0 0 0 3px rgba(255,255,255,.45); outline:none; }
+.search-box button{ border-radius:0 50px 50px 0; font-weight:600; padding:0 30px; background:var(--amber); border:none; color:#212529; }
+
+/* Search Results Dropdown */
+#searchDropdown{
+  position:absolute;
+  top:60px;
+  left:0; right:0;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 20px 50px rgba(0,0,0,.2);
+  max-height:420px;
+  overflow-y:auto;
+  z-index:9000;
+  display:none;
+}
+#searchDropdown.show{ display:block; }
+.search-result-item{
+  padding:12px 20px;
+  cursor:pointer;
+  border-bottom:1px solid #f1f5f9;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  transition:.15s;
+}
+.search-result-item:last-child{ border-bottom:none; }
+.search-result-item:hover{ background:#eef2ff; }
+.search-result-item .sri-icon{ font-size:1.4rem; }
+.search-result-item .sri-name{ font-weight:600; font-size:.93rem; color:var(--ink); }
+.search-result-item .sri-meta{ font-size:.78rem; color:var(--muted); }
+#searchDropdown .no-results{ padding:20px; text-align:center; color:var(--muted); font-size:.9rem; }
+
+/* Section heading */
+h2{ font-weight:800; color:#1e293b; }
+h3.section-title{ margin-top:60px; margin-bottom:30px; color:var(--violet); font-weight:700; text-align:center; position:relative; }
+h3.section-title::after{ content:""; display:block; width:70px; height:4px; background:linear-gradient(90deg,var(--primary),var(--pink)); border-radius:4px; margin:12px auto 0; }
+.section-subtitle{ text-align:center; color:var(--muted); max-width:700px; margin:0 auto 10px; }
+
+/* Feature cards */
+.feature-card{ transition:0.3s; border:none; border-radius:var(--card-radius); background:#fff; }
+.feature-card:hover{ transform:translateY(-6px); box-shadow:0 15px 30px rgba(37,99,235,.18) !important; }
+.feature-card h4{ font-size:2.2rem; margin-bottom:5px; }
+
+/* University cards */
+.uni-card{ border:none; border-radius:var(--card-radius); background:#fff; transition:.25s; height:100%; cursor:pointer; }
+.uni-card:hover{ transform:translateY(-4px); box-shadow:0 12px 24px rgba(124,58,237,.15) !important; }
+.uni-card h5{ font-size:1rem; font-weight:600; color:var(--ink); margin-bottom:0; }
+
+/* District Cards */
+.district-card{
+  border:none;
+  border-radius:var(--card-radius);
+  background:#fff;
+  padding:18px 20px;
+  cursor:pointer;
+  transition:.25s;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  box-shadow:0 2px 8px rgba(37,99,235,.08);
+}
+.district-card:hover{ transform:translateY(-4px); box-shadow:0 12px 28px rgba(37,99,235,.18); }
+.district-card .dist-icon{ font-size:1.8rem; }
+.district-card .dist-name{ font-weight:600; font-size:.95rem; color:var(--ink); }
+.district-card .dist-count{ font-size:.75rem; color:var(--muted); }
+
+/* District colleges section */
+#districtCollegesSection{ display:none; }
+.back-btn{
+  background:linear-gradient(135deg,var(--primary),var(--violet));
+  color:#fff;
+  border:none;
+  border-radius:50px;
+  padding:10px 24px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+.back-btn:hover{ opacity:.9; transform:translateY(-1px); }
+
+/* College detail cards for district view */
+.college-detail-card{
+  border:none;
+  border-radius:var(--card-radius);
+  background:#fff;
+  padding:20px;
+  height:100%;
+  box-shadow:0 2px 10px rgba(37,99,235,.08);
+  transition:.25s;
+  cursor:pointer;
+}
+.college-detail-card:hover{ transform:translateY(-4px); box-shadow:0 12px 28px rgba(37,99,235,.15); }
+.college-detail-card h5{ font-weight:700; font-size:.97rem; color:var(--ink); margin-bottom:6px; }
+.college-detail-card .cd-loc{ font-size:.82rem; color:var(--muted); margin-bottom:8px; }
+.college-detail-card .cd-desc{ font-size:.85rem; color:#475569; line-height:1.55; }
+.college-detail-card .cd-badges{ margin-bottom:10px; display:flex; gap:6px; flex-wrap:wrap; }
+
+/* EAPCET controls */
+.eapcet-controls .form-control,.eapcet-controls .form-select{ height:48px; border-radius:50px; border:1px solid #cbd5e1; padding-left:20px; }
+.eapcet-controls .form-control:focus,.eapcet-controls .form-select:focus{ box-shadow:0 0 0 3px rgba(37,99,235,.15); border-color:var(--primary); }
+.eapcet-count{ font-size:.8rem; font-weight:600; color:var(--primary-dark); background:#eef2ff !important; padding:10px 14px; border-radius:50px; white-space:nowrap; }
+.eapcet-table-wrap{ border-radius:var(--card-radius); overflow:hidden; background:#fff; }
+.eapcet-table{ margin-bottom:0; }
+.eapcet-table thead th{ background:linear-gradient(90deg,var(--primary),var(--violet)); color:#fff; font-weight:600; border:none; padding:14px 16px; white-space:nowrap; }
+.eapcet-table tbody td{ padding:12px 16px; font-size:.92rem; border-bottom:1px solid #eef2f7; }
+.eapcet-row{ cursor:pointer; transition:.15s; }
+.eapcet-row:hover{ background:#eef2ff; }
+.eapcet-row.d-none-row{ display:none; }
+
+/* College detail modal */
+.college-modal .modal-content{ border:none; border-radius:20px; overflow:hidden; }
+.college-modal .modal-header{ background:linear-gradient(90deg,var(--primary),var(--violet)); color:#fff; border:none; padding:22px 26px; }
+.college-modal .modal-header .btn-close{ filter:invert(1) grayscale(100%) brightness(200%); }
+.college-modal .modal-title{ font-weight:700; font-size:1.3rem; }
+.college-modal .modal-body{ padding:26px; }
+.college-modal .modal-loc{ color:var(--muted); font-size:.95rem; margin-bottom:14px; }
+.college-modal .modal-desc{ font-size:1rem; line-height:1.7; color:#475569; margin-bottom:0; }
+.college-modal .modal-note{ margin-top:18px; padding:14px 16px; background:#f1f5f9; border-radius:12px; font-size:.85rem; color:var(--muted); }
+
+.uni-tag{ display:inline-block; font-size:.7rem; font-weight:600; padding:3px 10px; border-radius:50px; margin-bottom:8px; letter-spacing:.5px; }
+.tag-govt{ background:#dbeafe; color:var(--primary-dark); }
+.tag-private{ background:#fce7f3; color:var(--pink); }
+.tag-deemed{ background:#ede9fe; color:var(--violet); }
+
+/* Top Engineering - ranking cards */
+.rank-card{ border:none; border-radius:var(--card-radius); background:#fff; padding:22px; height:100%; display:flex; gap:18px; align-items:flex-start; transition:.25s; border-left:5px solid var(--primary); cursor:pointer; }
+.rank-card:hover{ transform:translateY(-5px); box-shadow:0 14px 28px rgba(37,99,235,.18); }
+.rank-badge{ flex:0 0 56px; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Poppins',sans-serif; font-weight:800; font-size:1.3rem; color:#fff; background:linear-gradient(135deg,var(--primary),var(--violet)); }
+.rank-card:nth-child(2) .rank-badge{ background:linear-gradient(135deg,var(--violet),var(--pink)); }
+.rank-card:nth-child(3) .rank-badge{ background:linear-gradient(135deg,var(--pink),var(--amber)); }
+.rank-card:nth-child(4) .rank-badge{ background:linear-gradient(135deg,var(--cyan),var(--primary)); }
+.rank-card h5{ font-weight:700; margin-bottom:4px; }
+.rank-card .loc{ color:var(--muted); font-size:.85rem; margin-bottom:6px; }
+.rank-card .desc{ font-size:.88rem; color:#475569; }
+
+/* ===== CHATBOT ===== */
+.chatbot-btn{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  width:82px;
+  height:82px;
+  border:none;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--violet));
+  color:white;
+  font-size:34px;
+  box-shadow:0 8px 24px rgba(37,99,235,.5);
+  transition:box-shadow .25s, transform .15s;
+  z-index:10000;
+  cursor:grab;
+  user-select:none;
+  touch-action:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.chatbot-btn:active{ cursor:grabbing; }
+.chatbot-btn.dragging{ transform:scale(1.08); box-shadow:0 14px 36px rgba(37,99,235,.55); transition:none; }
+.chatbot-btn:not(.dragging):hover{ transform:scale(1.1); box-shadow:0 10px 28px rgba(37,99,235,.6); }
+
+.chat-container{
+  position:fixed;
+  right:20px;
+  bottom:100px;
+  width:460px;
+  height:640px;
+  background:#fff;
+  border-radius:20px;
+  padding:0;
+  box-shadow:0 10px 40px rgba(0,0,0,.25);
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+  z-index:9999;
+  /* resizable */
+  resize:both;
+  min-width:320px;
+  min-height:400px;
+  max-width:90vw;
+  max-height:90vh;
+}
+
+/* Resize handle hint */
+.chat-container::after{
+  content:"⤡";
+  position:absolute;
+  bottom:6px;
+  right:8px;
+  font-size:14px;
+  color:#cbd5e1;
+  pointer-events:none;
+  line-height:1;
+}
+
+.chat-header{ background:linear-gradient(90deg,var(--primary),var(--violet)); color:#fff; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; cursor:grab; user-select:none; flex-shrink:0; }
+.chat-header:active{ cursor:grabbing; }
+.chat-header h5{ margin:0; font-weight:700; font-size:1rem; }
+
+.chat-header-actions{ display:flex; gap:8px; align-items:center; }
+.chat-size-btn{ background:rgba(255,255,255,.15); border:none; color:#fff; width:28px; height:28px; border-radius:50%; font-size:.85rem; cursor:pointer; transition:.2s; display:flex; align-items:center; justify-content:center; }
+.chat-size-btn:hover{ background:rgba(255,255,255,.3); }
+.chat-close{ background:rgba(255,255,255,.15); border:none; color:#fff; width:28px; height:28px; border-radius:50%; font-size:.85rem; cursor:pointer; transition:.2s; display:flex; align-items:center; justify-content:center; }
+.chat-close:hover{ background:rgba(255,255,255,.3); }
+
+#messages{ flex:1; overflow-y:auto; padding:16px; background:#f8fafc; min-height:0; }
+.user-message{ background:linear-gradient(135deg,var(--primary),var(--violet)); color:#fff; padding:10px 16px; border-radius:16px 16px 4px 16px; margin:8px 0; max-width:80%; margin-left:auto; font-size:.92rem; }
+.ai-message{ background:#fff; border:1px solid #e2e8f0; padding:12px 16px; border-radius:16px 16px 16px 4px; margin:8px 0; max-width:85%; font-size:.92rem; line-height:1.5; box-shadow:0 2px 6px rgba(0,0,0,.04); }
+
+.chat-input-area{ padding:12px 14px; border-top:1px solid #e2e8f0; background:#fff; flex-shrink:0; }
+.chat-input-area .form-control{ border-radius:50px; height:46px; padding-left:18px; border:1px solid #cbd5e1; }
+.chat-input-area .form-control:focus{ box-shadow:0 0 0 3px rgba(37,99,235,.15); border-color:var(--primary); }
+.chat-input-area .btn{ border-radius:50px; height:46px; width:46px; padding:0; background:linear-gradient(135deg,var(--primary),var(--violet)); border:none; color:#fff; font-size:1.1rem; }
+
+.suggestions-box{ padding:0 14px 10px; display:flex; flex-wrap:wrap; gap:6px; flex-shrink:0; }
+.suggestion-chip{ background:#eef2ff; color:var(--primary-dark); border:1px solid #c7d2fe; border-radius:50px; padding:5px 12px; font-size:.78rem; cursor:pointer; transition:.2s; }
+.suggestion-chip:hover{ background:var(--primary); color:#fff; }
+
+footer{ background:#212529; color:white; padding:25px; text-align:center; margin-top:60px; }
+footer p{ margin:0; opacity:.85; }
+
+@media(max-width:576px){
+  .chat-container{ width:94vw; height:75vh; right:3vw; bottom:90px; }
+  .hero h1{ font-size:2.6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+<div class="container">
+  <a class="navbar-brand" href="#">College<span>Info</span></a>
+  <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="menu">
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="showDistrictsSection(event)">Colleges</a></li>
+      <li class="nav-item"><a class="nav-link" href="#top-eng">Top Engineering</a></li>
+      <li class="nav-item"><a class="nav-link" href="#eapcet-top50">EAPCET Top 50</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Courses</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Placements</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Compare</a></li>
+    </ul>
+  </div>
+</div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <h1>Find Your Dream College</h1>
+  <p class="mt-3">Explore Colleges, Courses, Placements and AI Guidance — all in one place for Andhra Pradesh.</p>
+  <div class="search-box mt-4">
+    <div class="input-group" style="position:relative;">
+      <input type="text" id="heroSearch" class="form-control" placeholder="Search College, Location, Branch...">
+      <button class="btn" onclick="doHeroSearch()">Search</button>
+    </div>
+    <div id="searchDropdown"></div>
+  </div>
+</section>
+
+<!-- Features -->
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Our Features</h2>
+  <div class="row g-4">
+    <div class="col-md-3"><div class="card feature-card shadow text-center"><div class="card-body"><h4>🏫</h4><h5>Colleges</h5><p class="mb-0">Browse Engineering Colleges in AP.</p></div></div></div>
+    <div class="col-md-3"><div class="card feature-card shadow text-center"><div class="card-body"><h4>📚</h4><h5>Courses</h5><p class="mb-0">View Available Courses and Details.</p></div></div></div>
+    <div class="col-md-3"><div class="card feature-card shadow text-center"><div class="card-body"><h4>💼</h4><h5>Placements</h5><p class="mb-0">Highest &amp; Average Packages.</p></div></div></div>
+    <div class="col-md-3"><div class="card feature-card shadow text-center"><div class="card-body"><h4>🤖</h4><h5>AI Chatbot</h5><p class="mb-0">Get Instant Guidance.</p></div></div></div>
+  </div>
+</div>
+
+<!-- AP 26 Districts Section -->
+<div class="container mt-5" id="districtsSection" style="display:none;">
+  <h3 class="section-title">Browse by District</h3>
+  <p class="section-subtitle mb-4">Select your district to see all engineering colleges available there.</p>
+  <div class="row g-3" id="districtGrid"></div>
+</div>
+
+<!-- District Colleges View -->
+<div class="container mt-5" id="districtCollegesSection">
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <button class="back-btn" onclick="backToDistricts()">← Back to Districts</button>
+    <div>
+      <h3 class="mb-0" id="districtTitle" style="font-weight:800;color:var(--ink);">District Colleges</h3>
+      <p class="mb-0 text-muted" id="districtSubtitle" style="font-size:.88rem;"></p>
+    </div>
+  </div>
+  <div class="row g-3" id="districtCollegeGrid"></div>
+</div>
+
+<!-- Top Engineering Colleges in AP -->
+<div class="container" id="top-eng">
+  <h3 class="section-title">Top Engineering Colleges in AP</h3>
+  <p class="section-subtitle mb-4">A quick look at some of the most popular and well-regarded engineering institutions across Andhra Pradesh.</p>
+  <div class="row g-4">
+    <div class="col-md-6"><div class="rank-card shadow-sm" onclick="openCollegeDetail('jntuk-college-of-engineering-kakinada')" role="button" tabindex="0"><div class="rank-badge">1</div><div><h5>JNTUK College of Engineering, Kakinada</h5><p class="loc">📍 Kakinada</p><p class="desc mb-0">A premier autonomous government institution and one of the oldest engineering colleges in AP, known for strong core branches and research culture.</p></div></div></div>
+    <div class="col-md-6"><div class="rank-card shadow-sm" onclick="openCollegeDetail('andhra-university-college-of-engineering')" role="button" tabindex="0"><div class="rank-badge">2</div><div><h5>Andhra University College of Engineering</h5><p class="loc">📍 Visakhapatnam</p><p class="desc mb-0">A century-old institution with a strong legacy in engineering education, well-equipped labs and an active alumni network.</p></div></div></div>
+    <div class="col-md-6"><div class="rank-card shadow-sm" onclick="openCollegeDetail('vit-ap-university')" role="button" tabindex="0"><div class="rank-badge">3</div><div><h5>VIT-AP University</h5><p class="loc">📍 Amaravati</p><p class="desc mb-0">A modern private campus known for industry tie-ups, strong placement records and a focus on emerging tech specializations.</p></div></div></div>
+    <div class="col-md-6"><div class="rank-card shadow-sm" onclick="openCollegeDetail('koneru-lakshmaiah-education-foundation-klef')" role="button" tabindex="0"><div class="rank-badge">4</div><div><h5>Koneru Lakshmaiah Education Foundation (KLEF)</h5><p class="loc">📍 Vaddeswaram, Guntur</p><p class="desc mb-0">A deemed-to-be university with NAAC A++ accreditation, large campus and a wide range of engineering and research programs.</p></div></div></div>
+    <div class="col-md-6"><div class="rank-card shadow-sm" onclick="openCollegeDetail('srm-university-ap')" role="button" tabindex="0"><div class="rank-badge">5</div><div><h5>SRM University-AP</h5><p class="loc">📍 Amaravati</p><p class="desc mb-0">Part of the well-known SRM group, offering modern infrastructure and collaborations with global universities.</p></div></div></div>
+    <div class="col-md-6"><div class="rank-card shadow-sm" onclick="openCollegeDetail('gitam-deemed-university')" role="button" tabindex="0"><div class="rank-badge">6</div><div><h5>GITAM (Deemed University)</h5><p class="loc">📍 Visakhapatnam</p><p class="desc mb-0">A large deemed university with multiple schools of engineering, known for research output and international collaborations.</p></div></div></div>
+    <div class="col-md-6"><div class="rank-card shadow-sm" onclick="openCollegeDetail('vr-siddhartha-engineering-college')" role="button" tabindex="0"><div class="rank-badge">7</div><div><h5>VR Siddhartha Engineering College</h5><p class="loc">📍 Vijayawada</p><p class="desc mb-0">A well-established autonomous college known for consistent placements and strong alumni presence in the IT industry.</p></div></div></div>
+    <div class="col-md-6"><div class="rank-card shadow-sm" onclick="openCollegeDetail('rvr-amp-jc-college-of-engineering')" role="button" tabindex="0"><div class="rank-badge">8</div><div><h5>RVR &amp; JC College of Engineering</h5><p class="loc">📍 Guntur</p><p class="desc mb-0">An autonomous institution recognized for academic discipline, good infrastructure and steady placement performance.</p></div></div></div>
+    <div class="col-md-6"><div class="rank-card shadow-sm" onclick="openCollegeDetail('sagi-rama-krishnam-raju-srkr-engineering-college')" role="button" tabindex="0"><div class="rank-badge">9</div><div><h5>Sagi Rama Krishnam Raju (SRKR) Engineering College</h5><p class="loc">📍 Bhimavaram</p><p class="desc mb-0">A reputed autonomous college in the West Godavari region, known for its civil and mechanical engineering programs.</p></div></div></div>
+    <div class="col-md-6"><div class="rank-card shadow-sm" onclick="openCollegeDetail('aditya-engineering-college')" role="button" tabindex="0"><div class="rank-badge">10</div><div><h5>Aditya Engineering College</h5><p class="loc">📍 Surampalem, East Godavari</p><p class="desc mb-0">A growing private institution with modern facilities and an increasing focus on placement training and skill development.</p></div></div></div>
+  </div>
+  <p class="text-center text-muted mt-3" style="font-size:.85rem;">Rankings are a general guide — always verify latest official NIRF / NAAC rankings before applying.</p>
+</div>
+
+<!-- AP EAPCET Top 50 -->
+<div class="container" id="eapcet-top50">
+  <h3 class="section-title">AP EAPCET — Top 50 Engineering Colleges</h3>
+  <p class="section-subtitle mb-4">Region-wise list of 50 popular engineering colleges. Click any row for a quick overview.</p>
+  <div class="eapcet-controls mb-3">
+    <div class="row g-2 align-items-center justify-content-center">
+      <div class="col-md-6"><input type="text" id="eapcetSearch" class="form-control" placeholder="Search by college name, location..."></div>
+      <div class="col-md-4">
+        <select id="eapcetRegion" class="form-select">
+          <option value="all">All Regions</option>
+          <option value="Uttarandhra (North Coastal)">Uttarandhra (North Coastal)</option>
+          <option value="Krishna-Godavari">Krishna-Godavari</option>
+          <option value="Rayalaseema">Rayalaseema</option>
+          <option value="Nellore">Nellore</option>
+        </select>
+      </div>
+      <div class="col-md-2"><span id="eapcetCount" class="badge text-bg-light eapcet-count">50 colleges</span></div>
+    </div>
+  </div>
+  <div class="table-responsive eapcet-table-wrap shadow-sm">
+  <table class="table eapcet-table align-middle mb-0">
+  <thead><tr><th class="text-center">#</th><th>College</th><th>Location</th><th>Type</th><th>Region</th></tr></thead>
+  <tbody id="eapcetTbody">
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="andhra university college of engineering visakhapatnam" onclick="openCollegeDetail('andhra-university-college-of-engineering')" role="button" tabindex="0"><td class="text-center fw-bold">1</td><td>Andhra University College of Engineering</td><td>Visakhapatnam</td><td><span class="uni-tag tag-govt">Govt</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="jntuk university college of engineering kakinada" onclick="openCollegeDetail('jntuk-university-college-of-engineering-kakinada')" role="button" tabindex="0"><td class="text-center fw-bold">2</td><td>JNTUK University College of Engineering, Kakinada</td><td>Kakinada</td><td><span class="uni-tag tag-govt">Govt</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="jntua college of engineering ananthapuramu" onclick="openCollegeDetail('jntua-college-of-engineering-ananthapuramu')" role="button" tabindex="0"><td class="text-center fw-bold">3</td><td>JNTUA College of Engineering, Ananthapuramu</td><td>Ananthapuramu</td><td><span class="uni-tag tag-govt">Govt</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="sri venkateswara university college of engineering tirupati" onclick="openCollegeDetail('sri-venkateswara-university-college-of-engineering')" role="button" tabindex="0"><td class="text-center fw-bold">4</td><td>Sri Venkateswara University College of Engineering</td><td>Tirupati</td><td><span class="uni-tag tag-govt">Govt</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="g pulla reddy engineering college kurnool" onclick="openCollegeDetail('g-pulla-reddy-engineering-college-autonomous')" role="button" tabindex="0"><td class="text-center fw-bold">5</td><td>G. Pulla Reddy Engineering College (Autonomous)</td><td>Kurnool</td><td><span class="uni-tag tag-govt">Govt Autonomous</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="gayatri vidya parishad college engineering visakhapatnam" onclick="openCollegeDetail('gayatri-vidya-parishad-college-of-engineering-autonomous')" role="button" tabindex="0"><td class="text-center fw-bold">6</td><td>Gayatri Vidya Parishad College of Engineering (Autonomous)</td><td>Visakhapatnam</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="anil neerukonda institute technology sciences anits visakhapatnam" onclick="openCollegeDetail('anil-neerukonda-institute-of-technology-and-sciences-anits')" role="button" tabindex="0"><td class="text-center fw-bold">7</td><td>Anil Neerukonda Institute of Technology and Sciences (ANITS)</td><td>Visakhapatnam</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="vignan institute information technology visakhapatnam" onclick="openCollegeDetail('vignan-s-institute-of-information-technology')" role="button" tabindex="0"><td class="text-center fw-bold">8</td><td>Vignan's Institute of Information Technology</td><td>Visakhapatnam</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="raghu engineering college visakhapatnam" onclick="openCollegeDetail('raghu-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">9</td><td>Raghu Engineering College</td><td>Visakhapatnam</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="gmr institute of technology rajam" onclick="openCollegeDetail('gmr-institute-of-technology')" role="button" tabindex="0"><td class="text-center fw-bold">10</td><td>GMR Institute of Technology</td><td>Rajam</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="mvgr college engineering vizianagaram" onclick="openCollegeDetail('mvgr-college-of-engineering-autonomous')" role="button" tabindex="0"><td class="text-center fw-bold">11</td><td>MVGR College of Engineering (Autonomous)</td><td>Vizianagaram</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="lendi institute engineering technology vizianagaram" onclick="openCollegeDetail('lendi-institute-of-engineering-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">12</td><td>Lendi Institute of Engineering and Technology</td><td>Vizianagaram</td><td><span class="uni-tag tag-private">Private</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="sri sivani college engineering srikakulam" onclick="openCollegeDetail('sri-sivani-college-of-engineering')" role="button" tabindex="0"><td class="text-center fw-bold">13</td><td>Sri Sivani College of Engineering</td><td>Srikakulam</td><td><span class="uni-tag tag-private">Private</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="aditya institute technology management aitam tekkali" onclick="openCollegeDetail('aditya-institute-of-technology-and-management-aitam')" role="button" tabindex="0"><td class="text-center fw-bold">14</td><td>Aditya Institute of Technology and Management (AITAM)</td><td>Tekkali</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="vr siddhartha engineering college vijayawada" onclick="openCollegeDetail('vr-siddhartha-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">15</td><td>VR Siddhartha Engineering College</td><td>Vijayawada</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="rvr jc college engineering guntur" onclick="openCollegeDetail('rvr-jc-college-of-engineering')" role="button" tabindex="0"><td class="text-center fw-bold">16</td><td>RVR & JC College of Engineering</td><td>Guntur</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="srkr engineering college bhimavaram" onclick="openCollegeDetail('srkr-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">17</td><td>SRKR Engineering College</td><td>Bhimavaram</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="sri vasavi engineering college tadepalligudem" onclick="openCollegeDetail('sri-vasavi-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">18</td><td>Sri Vasavi Engineering College</td><td>Tadepalligudem</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="aditya engineering college surampalem east godavari" onclick="openCollegeDetail('aditya-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">19</td><td>Aditya Engineering College</td><td>Surampalem</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="pragati engineering college surampalem" onclick="openCollegeDetail('pragati-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">20</td><td>Pragati Engineering College</td><td>Surampalem</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="shri vishnu engineering college women bhimavaram" onclick="openCollegeDetail('shri-vishnu-engineering-college-for-women')" role="button" tabindex="0"><td class="text-center fw-bold">21</td><td>Shri Vishnu Engineering College for Women</td><td>Bhimavaram</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="vignan foundation science technology research vfstr guntur" onclick="openCollegeDetail('vignan-s-foundation-for-science-technology-research-vfstr')" role="button" tabindex="0"><td class="text-center fw-bold">22</td><td>Vignan's Foundation for Science, Technology & Research (VFSTR)</td><td>Guntur</td><td><span class="uni-tag tag-deemed">Deemed</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="koneru lakshmaiah kl university vaddeswaram guntur" onclick="openCollegeDetail('koneru-lakshmaiah-education-foundation-kl-university')" role="button" tabindex="0"><td class="text-center fw-bold">23</td><td>Koneru Lakshmaiah Education Foundation (KL University)</td><td>Vaddeswaram, Guntur</td><td><span class="uni-tag tag-deemed">Deemed</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="vit ap university amaravati" onclick="openCollegeDetail('vit-ap-university-2')" role="button" tabindex="0"><td class="text-center fw-bold">24</td><td>VIT-AP University</td><td>Amaravati</td><td><span class="uni-tag tag-private">Private University</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="srm university ap amaravati" onclick="openCollegeDetail('srm-university-ap-2')" role="button" tabindex="0"><td class="text-center fw-bold">25</td><td>SRM University-AP</td><td>Amaravati</td><td><span class="uni-tag tag-private">Private University</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="vasireddy venkatadri institute technology nambur guntur" onclick="openCollegeDetail('vasireddy-venkatadri-institute-of-technology')" role="button" tabindex="0"><td class="text-center fw-bold">26</td><td>Vasireddy Venkatadri Institute of Technology</td><td>Nambur, Guntur</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="bapatla engineering college bapatla" onclick="openCollegeDetail('bapatla-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">27</td><td>Bapatla Engineering College</td><td>Bapatla</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="nri institute technology agiripalli krishna" onclick="openCollegeDetail('nri-institute-of-technology')" role="button" tabindex="0"><td class="text-center fw-bold">28</td><td>NRI Institute of Technology</td><td>Agiripalli, Krishna District</td><td><span class="uni-tag tag-private">Private</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="pscmr college engineering technology vijayawada" onclick="openCollegeDetail('pscmr-college-of-engineering-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">29</td><td>PSCMR College of Engineering and Technology</td><td>Vijayawada</td><td><span class="uni-tag tag-private">Private</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="dhanekula institute engineering technology vijayawada" onclick="openCollegeDetail('dhanekula-institute-of-engineering-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">30</td><td>Dhanekula Institute of Engineering and Technology</td><td>Vijayawada</td><td><span class="uni-tag tag-private">Private</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="prasad potluri siddhartha institute technology vijayawada" onclick="openCollegeDetail('prasad-v-potluri-siddhartha-institute-of-technology')" role="button" tabindex="0"><td class="text-center fw-bold">31</td><td>Prasad V. Potluri Siddhartha Institute of Technology</td><td>Vijayawada</td><td><span class="uni-tag tag-private">Private</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="sasi institute technology engineering tadepalligudem" onclick="openCollegeDetail('sasi-institute-of-technology-and-engineering')" role="button" tabindex="0"><td class="text-center fw-bold">32</td><td>Sasi Institute of Technology and Engineering</td><td>Tadepalligudem</td><td><span class="uni-tag tag-private">Private</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="swarnandhra college engineering technology narsapur" onclick="openCollegeDetail('swarnandhra-college-of-engineering-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">33</td><td>Swarnandhra College of Engineering and Technology</td><td>Narsapur</td><td><span class="uni-tag tag-private">Private</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="vignan lara institute technology science vadlamudi guntur" onclick="openCollegeDetail('vignan-s-lara-institute-of-technology-and-science')" role="button" tabindex="0"><td class="text-center fw-bold">34</td><td>Vignan's Lara Institute of Technology and Science</td><td>Vadlamudi, Guntur</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="qis college engineering technology ongole" onclick="openCollegeDetail('qis-college-of-engineering-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">35</td><td>QIS College of Engineering and Technology</td><td>Ongole</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="sri mittapalli college engineering technology guntur" onclick="openCollegeDetail('sri-mittapalli-college-of-engineering-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">36</td><td>Sri Mittapalli College of Engineering and Technology</td><td>Tummalapalem, Guntur</td><td><span class="uni-tag tag-private">Private</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="rajeev gandhi memorial college engineering technology nandyal" onclick="openCollegeDetail('rajeev-gandhi-memorial-college-of-engineering-technology')" role="button" tabindex="0"><td class="text-center fw-bold">37</td><td>Rajeev Gandhi Memorial College of Engineering & Technology</td><td>Nandyal</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="ksrm college engineering kadapa" onclick="openCollegeDetail('ksrm-college-of-engineering')" role="button" tabindex="0"><td class="text-center fw-bold">38</td><td>KSRM College of Engineering</td><td>Kadapa</td><td><span class="uni-tag tag-private">Private</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="annamacharya institute technology sciences rajampet" onclick="openCollegeDetail('annamacharya-institute-of-technology-and-sciences')" role="button" tabindex="0"><td class="text-center fw-bold">39</td><td>Annamacharya Institute of Technology and Sciences</td><td>Rajampet</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="madanapalle institute technology science mits" onclick="openCollegeDetail('madanapalle-institute-of-technology-science-mits')" role="button" tabindex="0"><td class="text-center fw-bold">40</td><td>Madanapalle Institute of Technology & Science (MITS)</td><td>Madanapalle</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="sree vidyanikethan engineering college tirupati" onclick="openCollegeDetail('sree-vidyanikethan-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">41</td><td>Sree Vidyanikethan Engineering College</td><td>Tirupati</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="siddharth institute engineering technology puttur" onclick="openCollegeDetail('siddharth-institute-of-engineering-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">42</td><td>Siddharth Institute of Engineering and Technology</td><td>Puttur</td><td><span class="uni-tag tag-private">Private</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Nellore" data-search="narayana engineering college gudur nellore" onclick="openCollegeDetail('narayana-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">43</td><td>Narayana Engineering College</td><td>Gudur, Nellore District</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Nellore</td></tr>
+    <tr class="eapcet-row" data-region="Nellore" data-search="geethanjali institute science technology nellore" onclick="openCollegeDetail('geethanjali-institute-of-science-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">44</td><td>Geethanjali Institute of Science and Technology</td><td>Nellore</td><td><span class="uni-tag tag-private">Private</span></td><td>Nellore</td></tr>
+    <tr class="eapcet-row" data-region="Nellore" data-search="audisankara college engineering technology gudur nellore" onclick="openCollegeDetail('audisankara-college-of-engineering-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">45</td><td>Audisankara College of Engineering and Technology</td><td>Gudur, Nellore District</td><td><span class="uni-tag tag-private">Private</span></td><td>Nellore</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="chadalawada ramanamma engineering college tirupati" onclick="openCollegeDetail('chadalawada-ramanamma-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">46</td><td>Chadalawada Ramanamma Engineering College</td><td>Tirupati</td><td><span class="uni-tag tag-private">Private</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Rayalaseema" data-search="vemu institute technology chittoor" onclick="openCollegeDetail('vemu-institute-of-technology')" role="button" tabindex="0"><td class="text-center fw-bold">47</td><td>Vemu Institute of Technology</td><td>P. Kothakota, Chittoor District</td><td><span class="uni-tag tag-private">Private</span></td><td>Rayalaseema</td></tr>
+    <tr class="eapcet-row" data-region="Krishna-Godavari" data-search="vikas college engineering technology nunna vijayawada" onclick="openCollegeDetail('vikas-college-of-engineering-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">48</td><td>Vikas College of Engineering and Technology</td><td>Nunna, Vijayawada</td><td><span class="uni-tag tag-private">Private</span></td><td>Krishna-Godavari</td></tr>
+    <tr class="eapcet-row" data-region="Uttarandhra (North Coastal)" data-search="chaitanya engineering college visakhapatnam" onclick="openCollegeDetail('chaitanya-engineering-college')" role="button" tabindex="0"><td class="text-center fw-bold">49</td><td>Chaitanya Engineering College</td><td>Visakhapatnam</td><td><span class="uni-tag tag-private">Private</span></td><td>Uttarandhra (North Coastal)</td></tr>
+    <tr class="eapcet-row" data-region="Nellore" data-search="nbkr institute science technology vidyanagar nellore" onclick="openCollegeDetail('nbkr-institute-of-science-and-technology')" role="button" tabindex="0"><td class="text-center fw-bold">50</td><td>NBKR Institute of Science and Technology</td><td>Vidyanagar, Nellore District</td><td><span class="uni-tag tag-private">Private Autonomous</span></td><td>Nellore</td></tr>
+  </tbody>
+  </table>
+  </div>
+  <p class="text-center text-muted mt-3" style="font-size:.85rem;">Always check official AP EAPCET / APSCHE web counselling data (cets.apsche.ap.gov.in) before finalising options.</p>
+</div>
+
+<!-- AP Government, Private & Deemed Universities -->
+<div class="container mt-5" id="colleges-uni">
+  <h2 class="text-center mb-2">AP Government, Private &amp; Deemed-to-be Universities</h2>
+  <p class="section-subtitle mb-4">A complete list of recognized universities across Andhra Pradesh.</p>
+
+  <h3 class="section-title">Government Universities</h3>
+  <div class="row g-3">
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('jntu-kakinada')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>JNTU Kakinada</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('andhra-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Andhra University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('acharya-nagarjuna-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Acharya Nagarjuna University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('jntu-anantapur')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>JNTU Anantapur</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('sri-venkateswara-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Sri Venkateswara University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('adikavi-nannaya-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Adikavi Nannaya University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('krishna-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Krishna University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('yogi-vemana-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Yogi Vemana University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('rayalaseema-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Rayalaseema University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('dr-b-r-ambedkar-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Dr. B. R. Ambedkar University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('dravidian-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Dravidian University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('sri-krishnadevaraya-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Sri Krishnadevaraya University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('andhra-kesari-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-govt">Govt</span><h5>Andhra Kesari University</h5></div></div></div>
+  </div>
+
+  <h3 class="section-title">Private Universities</h3>
+  <div class="row g-3">
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('vit-ap-university-2')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-private">Private</span><h5>VIT-AP University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('srm-university-ap-2')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-private">Private</span><h5>SRM University-AP</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('centurion-university-of-technology-and-management')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-private">Private</span><h5>Centurion University of Technology and Management</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('aditya-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-private">Private</span><h5>Aditya University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('annamacharya-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-private">Private</span><h5>Annamacharya University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('godavari-global-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-private">Private</span><h5>Godavari Global University</h5></div></div></div>
+  </div>
+
+  <h3 class="section-title">Deemed-to-be Universities</h3>
+  <div class="row g-3 mb-4">
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('gitam-visakhapatnam')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-deemed">Deemed</span><h5>GITAM, Visakhapatnam</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('koneru-lakshmaiah-education-foundation-vaddeswaram')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-deemed">Deemed</span><h5>Koneru Lakshmaiah Education Foundation, Vaddeswaram</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('vignan-s-foundation-for-science-technology-and-research-guntur')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-deemed">Deemed</span><h5>Vignan's Foundation for Science Technology and Research, Guntur</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('siddhartha-academy-of-higher-education')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-deemed">Deemed</span><h5>Siddhartha Academy of Higher Education</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('audisankara-deemed-to-be-university')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-deemed">Deemed</span><h5>Audisankara Deemed to be University</h5></div></div></div>
+    <div class="col-md-4"><div class="card uni-card shadow-sm" onclick="openCollegeDetail('gmr-institute-of-technology-deemed-university-status-granted-recently')" role="button" tabindex="0"><div class="card-body"><span class="uni-tag tag-deemed">Deemed</span><h5>GMR Institute of Technology (Deemed University)</h5></div></div></div>
+  </div>
+</div>
+
+<!-- Chatbot Window -->
+<div id="chatbox" class="chat-container">
+  <div id="chatHeader" class="chat-header">
+    <h5>🤖 College AI Assistant</h5>
+    <div class="chat-header-actions">
+      <button class="chat-size-btn" onclick="resizeChat('small')" title="Small">▪</button>
+      <button class="chat-size-btn" onclick="resizeChat('medium')" title="Medium">▫</button>
+      <button class="chat-size-btn" onclick="resizeChat('large')" title="Large">□</button>
+      <button class="chat-close" onclick="toggleChat()" title="Close">✕</button>
+    </div>
+  </div>
+  <div id="messages"></div>
+  <div id="suggestions" class="suggestions-box"></div>
+  <div class="chat-input-area">
+    <div class="input-group">
+      <input type="text" id="userInput" class="form-control" placeholder="Ask about colleges, courses, placements...">
+      <button class="btn" onclick="askAI()" title="Send">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- Chatbot Button -->
+<button class="chatbot-btn" title="Chat with AI · Drag to move">🤖</button>
+
+<footer>
+  <p>© 2026 College Info | Powered by AI</p>
+</footer>
+
+<!-- College Detail Modal -->
+<div class="modal fade college-modal" id="collegeModal" tabindex="-1" aria-labelledby="collegeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="collegeModalLabel">College Name</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-loc" id="collegeModalLoc">📍 Location</p>
+        <span class="uni-tag tag-govt" id="collegeModalType">Type</span>
+        <p class="modal-desc mt-3" id="collegeModalDesc">Description goes here.</p>
+        <div class="modal-note">For detailed courses, fees, eligibility and admission process, please check the official college/university website.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+// ===========================
+// COLLEGE DATA
+// ===========================
+const collegeData = {
+  "jntuk-college-of-engineering-kakinada":{"name":"JNTUK College of Engineering, Kakinada","location":"📍 Kakinada","district":"Kakinada","type":"Top Engineering College","rank":"1","desc":"A premier autonomous government institution and one of the oldest engineering colleges in AP, known for strong core branches and research culture.","branches":["CSE","ECE","EEE","Mechanical","Civil","Chemical"],"established":"1946","affiliation":"JNTU Kakinada"},
+  "andhra-university-college-of-engineering":{"name":"Andhra University College of Engineering","location":"📍 Visakhapatnam","district":"Visakhapatnam","type":"Top Engineering College","rank":"2","desc":"A century-old institution with a strong legacy in engineering education, well-equipped labs and an active alumni network.","branches":["CSE","ECE","EEE","Mechanical","Civil","Metallurgy"],"established":"1935","affiliation":"Andhra University"},
+  "vit-ap-university":{"name":"VIT-AP University","location":"📍 Amaravati","district":"NTR (Krishna)","type":"Top Engineering College","rank":"3","desc":"A modern private campus known for industry tie-ups, strong placement records and a focus on emerging tech specializations.","branches":["CSE","AI & ML","Data Science","ECE","Mechanical","Civil"],"established":"2017","affiliation":"Private University"},
+  "koneru-lakshmaiah-education-foundation-klef":{"name":"Koneru Lakshmaiah Education Foundation (KLEF)","location":"📍 Vaddeswaram, Guntur","district":"Bapatla","type":"Top Engineering College","rank":"4","desc":"A deemed-to-be university with NAAC A++ accreditation, large campus and a wide range of engineering and research programs.","branches":["CSE","AI & ML","ECE","EEE","Mechanical","Civil","Biotechnology"],"established":"1980","affiliation":"Deemed University"},
+  "srm-university-ap":{"name":"SRM University-AP","location":"📍 Amaravati","district":"NTR (Krishna)","type":"Top Engineering College","rank":"5","desc":"Part of the well-known SRM group, offering modern infrastructure and collaborations with global universities.","branches":["CSE","AI","ECE","Mechanical","Civil","Chemical"],"established":"2017","affiliation":"Private University"},
+  "gitam-deemed-university":{"name":"GITAM (Deemed University)","location":"📍 Visakhapatnam","district":"Visakhapatnam","type":"Top Engineering College","rank":"6","desc":"A large deemed university with multiple schools of engineering, known for research output and international collaborations.","branches":["CSE","ECE","EEE","Mechanical","Civil","Chemical","Pharmacy"],"established":"1980","affiliation":"Deemed University"},
+  "vr-siddhartha-engineering-college":{"name":"VR Siddhartha Engineering College","location":"📍 Vijayawada","district":"NTR (Krishna)","type":"Top Engineering College","rank":"7","desc":"A well-established autonomous college known for consistent placements and strong alumni presence in the IT industry.","branches":["CSE","ECE","EEE","Mechanical","Civil","IT"],"established":"1976","affiliation":"JNTU Kakinada"},
+  "rvr-amp-jc-college-of-engineering":{"name":"RVR & JC College of Engineering","location":"📍 Guntur","district":"Guntur","type":"Top Engineering College","rank":"8","desc":"An autonomous institution recognized for academic discipline, good infrastructure and steady placement performance.","branches":["CSE","ECE","EEE","Mechanical","Civil","Chemical"],"established":"1985","affiliation":"Acharya Nagarjuna University"},
+  "sagi-rama-krishnam-raju-srkr-engineering-college":{"name":"Sagi Rama Krishnam Raju (SRKR) Engineering College","location":"📍 Bhimavaram","district":"West Godavari","type":"Top Engineering College","rank":"9","desc":"A reputed autonomous college in the West Godavari region, known for its civil and mechanical engineering programs.","branches":["CSE","ECE","EEE","Mechanical","Civil","Chemical"],"established":"1980","affiliation":"JNTU Kakinada"},
+  "aditya-engineering-college":{"name":"Aditya Engineering College","location":"📍 Surampalem, East Godavari","district":"Kakinada","type":"Top Engineering College","rank":"10","desc":"A growing private institution with modern facilities and an increasing focus on placement training and skill development.","branches":["CSE","ECE","EEE","Mechanical","Civil","AI & ML"],"established":"1998","affiliation":"JNTU Kakinada"},
+  "jntu-kakinada":{"name":"JNTU Kakinada","location":"📍 Kakinada","district":"Kakinada","type":"Government University","rank":null,"desc":"A state government university offering engineering programs across affiliated colleges. One of the largest technical universities in AP.","branches":["All Engineering Branches"],"established":"2008","affiliation":"Government"},
+  "andhra-university":{"name":"Andhra University","location":"📍 Visakhapatnam","district":"Visakhapatnam","type":"Government University","rank":null,"desc":"One of the oldest universities in AP with a strong engineering and science faculty, vibrant campus and excellent library resources.","branches":["Engineering","Science","Arts","Commerce","Law"],"established":"1926","affiliation":"Government"},
+  "acharya-nagarjuna-university":{"name":"Acharya Nagarjuna University","location":"📍 Nagarjunanagar, Guntur","district":"Guntur","type":"Government University","rank":null,"desc":"A multi-faculty university in Guntur offering affiliated colleges across Krishna-Godavari zone.","branches":["Engineering","Science","Pharmacy","Management"],"established":"1976","affiliation":"Government"},
+  "jntu-anantapur":{"name":"JNTU Anantapur","location":"📍 Ananthapuramu","district":"Ananthapuramu","type":"Government University","rank":null,"desc":"The Rayalaseema counterpart of JNTU, serving hundreds of affiliated engineering colleges in the region.","branches":["All Engineering Branches"],"established":"2008","affiliation":"Government"},
+  "sri-venkateswara-university":{"name":"Sri Venkateswara University","location":"📍 Tirupati","district":"Tirupati","type":"Government University","rank":null,"desc":"A prominent state university in Tirupati known for its engineering, science and fine arts schools.","branches":["Engineering","Science","Arts","Commerce"],"established":"1954","affiliation":"Government"},
+  "adikavi-nannaya-university":{"name":"Adikavi Nannaya University","location":"📍 Rajahmundry","district":"East Godavari","type":"Government University","rank":null,"desc":"A regional university covering East Godavari and West Godavari districts with affiliated colleges.","branches":["Engineering","Arts","Commerce","Science"],"established":"2006","affiliation":"Government"},
+  "krishna-university":{"name":"Krishna University","location":"📍 Machilipatnam","district":"NTR (Krishna)","type":"Government University","rank":null,"desc":"A government university covering Krishna district offering various UG and PG programs.","branches":["Arts","Science","Commerce","Engineering"],"established":"2008","affiliation":"Government"},
+  "yogi-vemana-university":{"name":"Yogi Vemana University","location":"📍 Kadapa","district":"YSR Kadapa","type":"Government University","rank":null,"desc":"A university in Kadapa focusing on arts, science and professional programs.","branches":["Arts","Science","Commerce","Technology"],"established":"2006","affiliation":"Government"},
+  "rayalaseema-university":{"name":"Rayalaseema University","location":"📍 Kurnool","district":"Kurnool","type":"Government University","rank":null,"desc":"A government university serving the Kurnool district with UG and PG programs.","branches":["Arts","Science","Commerce","Technology"],"established":"2008","affiliation":"Government"},
+  "dr-b-r-ambedkar-university":{"name":"Dr. B. R. Ambedkar University","location":"📍 Srikakulam","district":"Srikakulam","type":"Government University","rank":null,"desc":"A government university serving the Srikakulam district offering arts, science and technology courses.","branches":["Arts","Science","Technology","Commerce"],"established":"2008","affiliation":"Government"},
+  "dravidian-university":{"name":"Dravidian University","location":"📍 Kuppam, Chittoor","district":"Chittoor","type":"Government University","rank":null,"desc":"Focused on Dravidian languages and culture, offering interdisciplinary programs.","branches":["Dravidian Studies","Arts","Science","Technology"],"established":"1997","affiliation":"Government"},
+  "sri-krishnadevaraya-university":{"name":"Sri Krishnadevaraya University","location":"📍 Ananthapuramu","district":"Ananthapuramu","type":"Government University","rank":null,"desc":"A government university in Ananthapuramu with engineering and science affiliated colleges.","branches":["Arts","Science","Commerce","Engineering"],"established":"1981","affiliation":"Government"},
+  "andhra-kesari-university":{"name":"Andhra Kesari University","location":"📍 Ongole, Prakasam","district":"Prakasam","type":"Government University","rank":null,"desc":"A newly established government university serving Prakasam district.","branches":["Arts","Science","Commerce","Technology"],"established":"2019","affiliation":"Government"},
+  "vit-ap-university-2":{"name":"VIT-AP University","location":"📍 Amaravati","district":"NTR (Krishna)","type":"Private University","rank":null,"desc":"A privately managed university known for industry-ready programs, research culture and global collaborations.","branches":["CSE","AI & ML","Data Science","ECE","Mechanical","Civil"],"established":"2017","affiliation":"Private University"},
+  "srm-university-ap-2":{"name":"SRM University-AP","location":"📍 Amaravati","district":"NTR (Krishna)","type":"Private University","rank":null,"desc":"Part of the SRM Group with state-of-art campus, diverse engineering programs and strong placement cell.","branches":["CSE","AI","ECE","Mechanical","Civil","Chemical"],"established":"2017","affiliation":"Private University"},
+  "centurion-university-of-technology-and-management":{"name":"Centurion University of Technology and Management","location":"📍 Vizianagaram","district":"Vizianagaram","type":"Private University","rank":null,"desc":"A skills-focused private university with emphasis on hands-on learning and vocational training integration.","branches":["CSE","ECE","Mechanical","Civil","Agriculture"],"established":"2010","affiliation":"Private University"},
+  "aditya-university":{"name":"Aditya University","location":"📍 Surampalem","district":"Kakinada","type":"Private University","rank":null,"desc":"A newer private university in East Godavari offering engineering programs with modern infrastructure.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2022","affiliation":"Private University"},
+  "annamacharya-university":{"name":"Annamacharya University","location":"📍 Rajampet","district":"YSR Kadapa","type":"Private University","rank":null,"desc":"A private university in Rajampet serving Rayalaseema region with engineering and allied programs.","branches":["CSE","ECE","Mechanical","Civil","Pharmacy"],"established":"2021","affiliation":"Private University"},
+  "godavari-global-university":{"name":"Godavari Global University","location":"📍 Rajahmundry","district":"East Godavari","type":"Private University","rank":null,"desc":"A recently established private university in East Godavari offering technology and management programs.","branches":["CSE","ECE","Mechanical","Management","Pharmacy"],"established":"2021","affiliation":"Private University"},
+  "gitam-visakhapatnam":{"name":"GITAM, Visakhapatnam","location":"📍 Visakhapatnam","district":"Visakhapatnam","type":"Deemed-to-be University","rank":null,"desc":"A deemed university with NAAC A++ rating, multiple schools including Engineering, Management, Science and Law.","branches":["CSE","ECE","EEE","Mechanical","Civil","Chemical","Pharmacy"],"established":"1980","affiliation":"Deemed University"},
+  "koneru-lakshmaiah-education-foundation-vaddeswaram":{"name":"Koneru Lakshmaiah Education Foundation, Vaddeswaram","location":"📍 Vaddeswaram, Guntur","district":"Bapatla","type":"Deemed-to-be University","rank":null,"desc":"NAAC A++ deemed university with excellent placements, strong research and 200+ acre campus.","branches":["CSE","AI & ML","ECE","EEE","Mechanical","Civil","Biotechnology"],"established":"1980","affiliation":"Deemed University"},
+  "vignan-s-foundation-for-science-technology-and-research-guntur":{"name":"Vignan's Foundation for Science Technology and Research, Guntur","location":"📍 Vadlamudi, Guntur","district":"Bapatla","type":"Deemed-to-be University","rank":null,"desc":"A deemed university in Guntur zone with a focus on applied research and industry-integrated programs.","branches":["CSE","ECE","EEE","Mechanical","Civil","Pharmacy"],"established":"1997","affiliation":"Deemed University"},
+  "siddhartha-academy-of-higher-education":{"name":"Siddhartha Academy of Higher Education","location":"📍 Vijayawada","district":"NTR (Krishna)","type":"Deemed-to-be University","rank":null,"desc":"A deemed institution in Vijayawada known for Medicine, Dentistry and Allied Health Sciences.","branches":["Medicine","Dentistry","Pharmacy","Engineering"],"established":"1979","affiliation":"Deemed University"},
+  "audisankara-deemed-to-be-university":{"name":"Audisankara Deemed to be University","location":"📍 Gudur, Nellore","district":"Sri Potti Sriramulu Nellore","type":"Deemed-to-be University","rank":null,"desc":"A deemed university in Nellore district offering engineering, management and pharmacy programs.","branches":["CSE","ECE","Mechanical","Civil","Pharmacy","Management"],"established":"2008","affiliation":"Deemed University"},
+  "gmr-institute-of-technology-deemed-university-status-granted-recently":{"name":"GMR Institute of Technology","location":"📍 Rajam, Srikakulam","district":"Srikakulam","type":"Deemed-to-be University","rank":null,"desc":"Recently granted deemed university status; known for strong industry connections through the GMR Group.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"1997","affiliation":"Deemed University"},
+  "jntuk-university-college-of-engineering-kakinada":{"name":"JNTUK University College of Engineering, Kakinada","location":"📍 Kakinada","district":"Kakinada","type":"Government University","rank":null,"desc":"JNTU Kakinada's main campus college — consistently one of the highest-demand EAPCET options for core and CS branches.","branches":["CSE","ECE","EEE","Mechanical","Civil","Chemical"],"established":"1946","affiliation":"JNTU Kakinada"},
+  "jntua-college-of-engineering-ananthapuramu":{"name":"JNTUA College of Engineering, Ananthapuramu","location":"📍 Ananthapuramu","district":"Ananthapuramu","type":"Government University","rank":null,"desc":"JNTU Anantapur's constituent college, popular for core engineering branches in Rayalaseema.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"1946","affiliation":"JNTU Anantapur"},
+  "sri-venkateswara-university-college-of-engineering":{"name":"Sri Venkateswara University College of Engineering","location":"📍 Tirupati","district":"Tirupati","type":"Government University","rank":null,"desc":"SVU's engineering college in Tirupati — a strong government option for students in the SVU zone.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"1954","affiliation":"Sri Venkateswara University"},
+  "g-pulla-reddy-engineering-college-autonomous":{"name":"G. Pulla Reddy Engineering College (Autonomous)","location":"📍 Kurnool","district":"Kurnool","type":"Government Autonomous College","rank":null,"desc":"A well-regarded government autonomous college in Kurnool with steady EAPCET demand for CSE and core branches.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"1962","affiliation":"JNTU Anantapur"},
+  "gayatri-vidya-parishad-college-of-engineering-autonomous":{"name":"Gayatri Vidya Parishad College of Engineering (Autonomous)","location":"📍 Visakhapatnam","district":"Visakhapatnam","type":"Private Autonomous College","rank":null,"desc":"One of the most sought-after autonomous colleges in Visakhapatnam, known for CSE/IT placements.","branches":["CSE","IT","ECE","EEE","Mechanical","Civil"],"established":"1996","affiliation":"Andhra University"},
+  "anil-neerukonda-institute-of-technology-and-sciences-anits":{"name":"Anil Neerukonda Institute of Technology and Sciences (ANITS)","location":"📍 Visakhapatnam","district":"Visakhapatnam","type":"Private Autonomous College","rank":null,"desc":"A popular autonomous college near Visakhapatnam with good infrastructure and placement record.","branches":["CSE","ECE","EEE","Mechanical","Civil","IT"],"established":"1998","affiliation":"Andhra University"},
+  "vignan-s-institute-of-information-technology":{"name":"Vignan's Institute of Information Technology","location":"📍 Visakhapatnam","district":"Visakhapatnam","type":"Private Autonomous College","rank":null,"desc":"An autonomous institute under the Vignan group, offering CSE, IT, AI & ML and core branches.","branches":["CSE","IT","AI & ML","ECE","EEE","Mechanical"],"established":"1997","affiliation":"JNTU Kakinada"},
+  "raghu-engineering-college":{"name":"Raghu Engineering College","location":"📍 Visakhapatnam","district":"Visakhapatnam","type":"Private Autonomous College","rank":null,"desc":"An autonomous college in the Visakhapatnam EAPCET zone with growing focus on CS-related branches.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"1998","affiliation":"JNTU Kakinada"},
+  "gmr-institute-of-technology":{"name":"GMR Institute of Technology","location":"📍 Rajam","district":"Srikakulam","type":"Private Autonomous College","rank":null,"desc":"An autonomous institute with strong industry connections through the GMR Group.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"1997","affiliation":"JNTU Kakinada"},
+  "mvgr-college-of-engineering-autonomous":{"name":"MVGR College of Engineering (Autonomous)","location":"📍 Vizianagaram","district":"Vizianagaram","type":"Private Autonomous College","rank":null,"desc":"A leading autonomous college in Vizianagaram with consistent EAPCET demand for CSE and ECE.","branches":["CSE","ECE","EEE","Mechanical","Civil","IT"],"established":"1997","affiliation":"JNTU Kakinada"},
+  "lendi-institute-of-engineering-and-technology":{"name":"Lendi Institute of Engineering and Technology","location":"📍 Vizianagaram","district":"Vizianagaram","type":"Private College","rank":null,"desc":"A long-established private college in Vizianagaram offering core and computer-science branches.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"1999","affiliation":"JNTU Kakinada"},
+  "sri-sivani-college-of-engineering":{"name":"Sri Sivani College of Engineering","location":"📍 Srikakulam","district":"Srikakulam","type":"Private College","rank":null,"desc":"A private engineering college serving the Srikakulam district EAPCET zone.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2008","affiliation":"JNTU Kakinada"},
+  "aditya-institute-of-technology-and-management-aitam":{"name":"Aditya Institute of Technology and Management (AITAM)","location":"📍 Tekkali, Srikakulam","district":"Srikakulam","type":"Private Autonomous College","rank":null,"desc":"An autonomous institute in Srikakulam district offering a wide range of UG engineering programs.","branches":["CSE","ECE","EEE","Mechanical","Civil","IT"],"established":"1998","affiliation":"JNTU Kakinada"},
+  "rvr-jc-college-of-engineering":{"name":"RVR & JC College of Engineering","location":"📍 Guntur","district":"Guntur","type":"Private Autonomous College","rank":null,"desc":"A well-known autonomous college in Guntur with steady demand across CSE, ECE and core branches.","branches":["CSE","ECE","EEE","Mechanical","Civil","Chemical"],"established":"1985","affiliation":"Acharya Nagarjuna University"},
+  "srkr-engineering-college":{"name":"SRKR Engineering College","location":"📍 Bhimavaram","district":"West Godavari","type":"Private Autonomous College","rank":null,"desc":"An autonomous college in Bhimavaram, popular for Civil, Mechanical and CSE programs.","branches":["CSE","ECE","EEE","Mechanical","Civil","Chemical"],"established":"1980","affiliation":"JNTU Kakinada"},
+  "sri-vasavi-engineering-college":{"name":"Sri Vasavi Engineering College","location":"📍 Tadepalligudem","district":"West Godavari","type":"Private Autonomous College","rank":null,"desc":"An autonomous college in West Godavari district with a good track record in core branches.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"1992","affiliation":"JNTU Kakinada"},
+  "pragati-engineering-college":{"name":"Pragati Engineering College","location":"📍 Surampalem","district":"Kakinada","type":"Private Autonomous College","rank":null,"desc":"An autonomous college near Kakinada with a wide range of EAPCET-counselled branches.","branches":["CSE","ECE","EEE","Mechanical","Civil","AI & ML"],"established":"2001","affiliation":"JNTU Kakinada"},
+  "shri-vishnu-engineering-college-for-women":{"name":"Shri Vishnu Engineering College for Women","location":"📍 Bhimavaram","district":"West Godavari","type":"Private Autonomous College","rank":null,"desc":"A well-regarded autonomous women's engineering college in Bhimavaram with strong academics.","branches":["CSE","ECE","EEE","IT","Civil"],"established":"1997","affiliation":"JNTU Kakinada"},
+  "vignan-s-foundation-for-science-technology-research-vfstr":{"name":"Vignan's Foundation for Science, Technology & Research (VFSTR)","location":"📍 Vadlamudi, Guntur","district":"Bapatla","type":"Deemed-to-be University","rank":null,"desc":"A deemed university in Guntur zone offering engineering programs with its own admission track alongside EAPCET options.","branches":["CSE","ECE","EEE","Mechanical","Civil","Pharmacy"],"established":"1997","affiliation":"Deemed University"},
+  "koneru-lakshmaiah-education-foundation-kl-university":{"name":"Koneru Lakshmaiah Education Foundation (KL University)","location":"📍 Vaddeswaram, Guntur","district":"Bapatla","type":"Deemed-to-be University","rank":null,"desc":"A NAAC A++ deemed university with a large engineering campus, strong placement record and global tie-ups.","branches":["CSE","AI & ML","ECE","EEE","Mechanical","Civil","Biotechnology"],"established":"1980","affiliation":"Deemed University"},
+  "vasireddy-venkatadri-institute-of-technology":{"name":"Vasireddy Venkatadri Institute of Technology","location":"📍 Nambur, Guntur","district":"Guntur","type":"Private Autonomous College","rank":null,"desc":"An autonomous college near Guntur known for CSE and allied computer-science branches.","branches":["CSE","ECE","EEE","Mechanical","Civil","IT"],"established":"2001","affiliation":"Acharya Nagarjuna University"},
+  "bapatla-engineering-college":{"name":"Bapatla Engineering College","location":"📍 Bapatla","district":"Bapatla","type":"Private Autonomous College","rank":null,"desc":"A long-standing autonomous college in Bapatla offering core and computer-science branches.","branches":["CSE","ECE","EEE","Mechanical","Civil","Chemical"],"established":"1981","affiliation":"Acharya Nagarjuna University"},
+  "nri-institute-of-technology":{"name":"NRI Institute of Technology","location":"📍 Agiripalli, Krishna District","district":"NTR (Krishna)","type":"Private College","rank":null,"desc":"A private college in Krishna district participating in EAPCET counselling for various branches.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2001","affiliation":"JNTU Kakinada"},
+  "pscmr-college-of-engineering-and-technology":{"name":"PSCMR College of Engineering and Technology","location":"📍 Vijayawada","district":"NTR (Krishna)","type":"Private College","rank":null,"desc":"A private college in Vijayawada offering CSE, ECE and core engineering branches.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2005","affiliation":"JNTU Kakinada"},
+  "dhanekula-institute-of-engineering-and-technology":{"name":"Dhanekula Institute of Engineering and Technology","location":"📍 Vijayawada","district":"NTR (Krishna)","type":"Private College","rank":null,"desc":"A private college near Vijayawada with CSE, IT and core branch options.","branches":["CSE","IT","ECE","EEE","Mechanical","Civil"],"established":"2003","affiliation":"JNTU Kakinada"},
+  "prasad-v-potluri-siddhartha-institute-of-technology":{"name":"Prasad V. Potluri Siddhartha Institute of Technology","location":"📍 Vijayawada","district":"NTR (Krishna)","type":"Private College","rank":null,"desc":"A private institute in Vijayawada offering a range of engineering branches through EAPCET.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2007","affiliation":"JNTU Kakinada"},
+  "sasi-institute-of-technology-and-engineering":{"name":"Sasi Institute of Technology and Engineering","location":"📍 Tadepalligudem","district":"West Godavari","type":"Private College","rank":null,"desc":"A private college in West Godavari district participating in EAPCET counselling.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2008","affiliation":"JNTU Kakinada"},
+  "swarnandhra-college-of-engineering-and-technology":{"name":"Swarnandhra College of Engineering and Technology","location":"📍 Narsapur","district":"West Godavari","type":"Private College","rank":null,"desc":"A private college in West Godavari district offering core and CSE branches.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2007","affiliation":"JNTU Kakinada"},
+  "vignan-s-lara-institute-of-technology-and-science":{"name":"Vignan's Lara Institute of Technology and Science","location":"📍 Vadlamudi, Guntur","district":"Bapatla","type":"Private Autonomous College","rank":null,"desc":"An autonomous Vignan group college near Guntur, popular for ECE and CSE branches.","branches":["CSE","ECE","EEE","Mechanical","Civil","IT"],"established":"2004","affiliation":"Acharya Nagarjuna University"},
+  "qis-college-of-engineering-and-technology":{"name":"QIS College of Engineering and Technology","location":"📍 Ongole","district":"Prakasam","type":"Private Autonomous College","rank":null,"desc":"An autonomous college in Prakasam district offering CSE, ECE and core branches.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2001","affiliation":"Acharya Nagarjuna University"},
+  "sri-mittapalli-college-of-engineering-and-technology":{"name":"Sri Mittapalli College of Engineering and Technology","location":"📍 Tummalapalem, Guntur","district":"Guntur","type":"Private College","rank":null,"desc":"A private college in Guntur district participating in EAPCET counselling.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2008","affiliation":"Acharya Nagarjuna University"},
+  "rajeev-gandhi-memorial-college-of-engineering-technology":{"name":"Rajeev Gandhi Memorial College of Engineering & Technology","location":"📍 Nandyal","district":"Nandyal","type":"Private Autonomous College","rank":null,"desc":"An autonomous college in Nandyal offering CSE and core branches for Rayalaseema-region candidates.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"1997","affiliation":"JNTU Anantapur"},
+  "ksrm-college-of-engineering":{"name":"KSRM College of Engineering","location":"📍 Kadapa","district":"YSR Kadapa","type":"Private College","rank":null,"desc":"A private college in Kadapa district offering core and computer-science branches.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"1997","affiliation":"JNTU Anantapur"},
+  "annamacharya-institute-of-technology-and-sciences":{"name":"Annamacharya Institute of Technology and Sciences","location":"📍 Rajampet","district":"YSR Kadapa","type":"Private Autonomous College","rank":null,"desc":"An autonomous institute in Rajampet with a wide range of EAPCET branches and active placement cell.","branches":["CSE","ECE","EEE","Mechanical","Civil","IT"],"established":"1997","affiliation":"JNTU Anantapur"},
+  "madanapalle-institute-of-technology-science-mits":{"name":"Madanapalle Institute of Technology & Science (MITS)","location":"📍 Madanapalle","district":"Chittoor","type":"Private Autonomous College","rank":null,"desc":"An autonomous college in Chittoor district known for CSE, AI & ML and allied programs.","branches":["CSE","AI & ML","ECE","EEE","Mechanical","Civil"],"established":"1998","affiliation":"JNTU Anantapur"},
+  "sree-vidyanikethan-engineering-college":{"name":"Sree Vidyanikethan Engineering College","location":"📍 Tirupati","district":"Tirupati","type":"Private Autonomous College","rank":null,"desc":"An autonomous college in Tirupati with consistent EAPCET demand for CSE and ECE.","branches":["CSE","ECE","EEE","Mechanical","Civil","IT"],"established":"1998","affiliation":"JNTU Anantapur"},
+  "siddharth-institute-of-engineering-and-technology":{"name":"Siddharth Institute of Engineering and Technology","location":"📍 Puttur","district":"Tirupati","type":"Private College","rank":null,"desc":"A private college in Chittoor district participating in EAPCET counselling.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2006","affiliation":"JNTU Anantapur"},
+  "narayana-engineering-college":{"name":"Narayana Engineering College","location":"📍 Gudur, Nellore District","district":"Sri Potti Sriramulu Nellore","type":"Private Autonomous College","rank":null,"desc":"An autonomous college in Nellore district, known for very competitive ECE opening ranks in recent EAPCET rounds.","branches":["CSE","ECE","EEE","Mechanical","Civil","IT"],"established":"1994","affiliation":"Sri Venkateswara University"},
+  "geethanjali-institute-of-science-and-technology":{"name":"Geethanjali Institute of Science and Technology","location":"📍 Nellore","district":"Sri Potti Sriramulu Nellore","type":"Private College","rank":null,"desc":"A private college in Nellore offering core and CSE branches through EAPCET.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2008","affiliation":"Sri Venkateswara University"},
+  "audisankara-college-of-engineering-and-technology":{"name":"Audisankara College of Engineering and Technology","location":"📍 Gudur, Nellore District","district":"Sri Potti Sriramulu Nellore","type":"Private College","rank":null,"desc":"A private college in Nellore district offering a range of EAPCET-counselled branches.","branches":["CSE","ECE","EEE","Mechanical","Civil","Pharmacy"],"established":"2008","affiliation":"Sri Venkateswara University"},
+  "chadalawada-ramanamma-engineering-college":{"name":"Chadalawada Ramanamma Engineering College","location":"📍 Tirupati","district":"Tirupati","type":"Private College","rank":null,"desc":"A private college in Tirupati participating in EAPCET counselling for various branches.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2009","affiliation":"JNTU Anantapur"},
+  "vemu-institute-of-technology":{"name":"Vemu Institute of Technology","location":"📍 P. Kothakota, Chittoor District","district":"Chittoor","type":"Private College","rank":null,"desc":"A private college in Chittoor district offering CSE and core branches through EAPCET.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2008","affiliation":"JNTU Anantapur"},
+  "vikas-college-of-engineering-and-technology":{"name":"Vikas College of Engineering and Technology","location":"📍 Nunna, Vijayawada","district":"NTR (Krishna)","type":"Private College","rank":null,"desc":"A private college near Vijayawada participating in EAPCET counselling.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2007","affiliation":"JNTU Kakinada"},
+  "chaitanya-engineering-college":{"name":"Chaitanya Engineering College","location":"📍 Visakhapatnam","district":"Visakhapatnam","type":"Private College","rank":null,"desc":"A private college in Visakhapatnam offering core and computer-science branches through EAPCET.","branches":["CSE","ECE","EEE","Mechanical","Civil"],"established":"2002","affiliation":"JNTU Kakinada"},
+  "nbkr-institute-of-science-and-technology":{"name":"NBKR Institute of Science and Technology","location":"📍 Vidyanagar, Nellore District","district":"Sri Potti Sriramulu Nellore","type":"Private Autonomous College","rank":null,"desc":"An autonomous college in Nellore district with a long-standing presence in EAPCET counselling.","branches":["CSE","ECE","EEE","Mechanical","Civil","Chemical"],"established":"1979","affiliation":"Sri Venkateswara University"}
+};
+
+// ===========================
+// AP 26 DISTRICTS DATA
+// ===========================
+const apDistricts = [
+  { id:"visakhapatnam", name:"Visakhapatnam", icon:"🏙️" },
+  { id:"vizianagaram", name:"Vizianagaram", icon:"🏰" },
+  { id:"srikakulam", name:"Srikakulam", icon:"🌊" },
+  { id:"kakinada", name:"Kakinada", icon:"🏭" },
+  { id:"east-godavari", name:"East Godavari", icon:"🌿" },
+  { id:"west-godavari", name:"West Godavari", icon:"🌾" },
+  { id:"ntr-krishna", name:"NTR (Krishna)", icon:"🏛️" },
+  { id:"guntur", name:"Guntur", icon:"🌶️" },
+  { id:"bapatla", name:"Bapatla", icon:"🏖️" },
+  { id:"prakasam", name:"Prakasam", icon:"🏞️" },
+  { id:"sri-potti-sriramulu-nellore", name:"Sri Potti Sriramulu Nellore", icon:"🌊" },
+  { id:"kurnool", name:"Kurnool", icon:"⛰️" },
+  { id:"nandyal", name:"Nandyal", icon:"🏔️" },
+  { id:"ananthapuramu", name:"Ananthapuramu", icon:"🌵" },
+  { id:"sri-sathya-sai", name:"Sri Sathya Sai", icon:"⭐" },
+  { id:"tirupati", name:"Tirupati", icon:"🛕" },
+  { id:"chittoor", name:"Chittoor", icon:"🌿" },
+  { id:"ysrkadhapa", name:"YSR Kadapa", icon:"🏜️" },
+  { id:"alluri-sitharama-raju", name:"Alluri Sitharama Raju", icon:"🌲" },
+  { id:"anakapalli", name:"Anakapalli", icon:"🏗️" },
+  { id:"eluru", name:"Eluru", icon:"🌺" },
+  { id:"palnadu", name:"Palnadu", icon:"🌄" },
+  { id:"dr-b-r-ambedkar-konaseema", name:"Dr. B.R. Ambedkar Konaseema", icon:"🌊" },
+  { id:"krishna-new", name:"Krishna", icon:"🏡" },
+  { id:"manyam", name:"Parvathipuram Manyam", icon:"⛰️" },
+  { id:"bapatlacity", name:"Bapatla City", icon:"🌴" }
+];
+
+// Map district names used in collegeData to district IDs
+const districtMapping = {
+  "Visakhapatnam": "visakhapatnam",
+  "Vizianagaram": "vizianagaram",
+  "Srikakulam": "srikakulam",
+  "Kakinada": "kakinada",
+  "East Godavari": "east-godavari",
+  "West Godavari": "west-godavari",
+  "NTR (Krishna)": "ntr-krishna",
+  "Guntur": "guntur",
+  "Bapatla": "bapatla",
+  "Prakasam": "prakasam",
+  "Sri Potti Sriramulu Nellore": "sri-potti-sriramulu-nellore",
+  "Kurnool": "kurnool",
+  "Nandyal": "nandyal",
+  "Ananthapuramu": "ananthapuramu",
+  "Tirupati": "tirupati",
+  "Chittoor": "chittoor",
+  "YSR Kadapa": "ysrkadhapa"
+};
+
+// ===========================
+// DISTRICT SECTION
+// ===========================
+function showDistrictsSection(e){
+  if(e) e.preventDefault();
+  document.getElementById("districtsSection").style.display = "block";
+  document.getElementById("districtCollegesSection").style.display = "none";
+  const grid = document.getElementById("districtGrid");
+  grid.innerHTML = "";
+
+  apDistricts.forEach(d => {
+    // count colleges
+    const count = Object.values(collegeData).filter(c => {
+      const cDistrict = c.district || "";
+      return districtMapping[cDistrict] === d.id;
+    }).length;
+
+    const col = document.createElement("div");
+    col.className = "col-6 col-md-4 col-lg-3";
+    col.innerHTML = `
+      <div class="district-card" onclick="showDistrictColleges('${d.id}','${d.name}')">
+        <div class="dist-icon">${d.icon}</div>
+        <div>
+          <div class="dist-name">${d.name}</div>
+          <div class="dist-count">${count > 0 ? count + ' college' + (count>1?'s':'') + ' listed' : 'Explore'}</div>
+        </div>
+      </div>`;
+    grid.appendChild(col);
+  });
+
+  document.getElementById("districtsSection").scrollIntoView({behavior:"smooth"});
+}
+
+function showDistrictColleges(districtId, districtName){
+  document.getElementById("districtCollegesSection").style.display = "block";
+  document.getElementById("districtTitle").textContent = districtName + " — Engineering Colleges";
+  document.getElementById("districtCollegesSection").scrollIntoView({behavior:"smooth"});
+
+  const grid = document.getElementById("districtCollegeGrid");
+  grid.innerHTML = "";
+
+  const matched = Object.entries(collegeData).filter(([key, c]) => {
+    return districtMapping[c.district] === districtId;
+  });
+
+  if(matched.length === 0){
+    document.getElementById("districtSubtitle").textContent = "No colleges listed yet for this district in our database.";
+    grid.innerHTML = `<div class="col-12 text-center py-5 text-muted"><div style="font-size:3rem">🔍</div><p class="mt-3">No colleges found for <strong>${districtName}</strong> in our current database.<br>More colleges will be added soon.</p></div>`;
+    return;
+  }
+
+  document.getElementById("districtSubtitle").textContent = matched.length + " college(s) found · Click any card for full details";
+
+  matched.forEach(([key, c]) => {
+    const typeClass = c.type === "Government University" || c.type === "Top Engineering College" ? "tag-govt"
+      : c.type === "Deemed-to-be University" ? "tag-deemed" : "tag-private";
+
+    const branches = (c.branches || []).slice(0,5).join(" · ") + ((c.branches||[]).length > 5 ? " ···" : "");
+    const col = document.createElement("div");
+    col.className = "col-md-6 col-lg-4";
+    col.innerHTML = `
+      <div class="college-detail-card" onclick="openCollegeDetail('${key}')">
+        <div class="cd-badges">
+          <span class="uni-tag ${typeClass}">${c.type}</span>
+          ${c.rank ? `<span class="uni-tag" style="background:#fef3c7;color:#92400e;">Rank #${c.rank}</span>` : ""}
+          ${c.established ? `<span class="uni-tag" style="background:#f0fdf4;color:#166534;">Est. ${c.established}</span>` : ""}
+        </div>
+        <h5>${c.name}</h5>
+        <p class="cd-loc">${c.location}</p>
+        <p class="cd-desc">${c.desc}</p>
+        ${branches ? `<div class="mt-2" style="font-size:.78rem;color:var(--primary-dark);font-weight:600;">📚 ${branches}</div>` : ""}
+      </div>`;
+    grid.appendChild(col);
+  });
+}
+
+function backToDistricts(){
+  document.getElementById("districtCollegesSection").style.display = "none";
+  document.getElementById("districtsSection").scrollIntoView({behavior:"smooth"});
+}
+
+// ===========================
+// HERO SEARCH
+// ===========================
+const heroSearchInput = document.getElementById("heroSearch");
+const searchDropdown = document.getElementById("searchDropdown");
+let searchTimer;
+
+heroSearchInput.addEventListener("input", function(){
+  clearTimeout(searchTimer);
+  const q = this.value.trim().toLowerCase();
+  if(q.length < 2){ searchDropdown.classList.remove("show"); searchDropdown.innerHTML=""; return; }
+  searchTimer = setTimeout(() => performSearch(q), 250);
+});
+
+heroSearchInput.addEventListener("keydown", function(e){
+  if(e.key === "Enter"){ doHeroSearch(); }
+  if(e.key === "Escape"){ searchDropdown.classList.remove("show"); }
+});
+
+document.addEventListener("click", function(e){
+  if(!e.target.closest(".search-box")){ searchDropdown.classList.remove("show"); }
+});
+
+function performSearch(q){
+  const results = [];
+  Object.entries(collegeData).forEach(([key, c]) => {
+    const searchStr = (c.name + " " + c.location + " " + (c.district||"") + " " + (c.branches||[]).join(" ") + " " + (c.type||"")).toLowerCase();
+    if(searchStr.includes(q)){
+      results.push({key, ...c});
+    }
+  });
+
+  if(results.length === 0){
+    searchDropdown.innerHTML = `<div class="no-results">No colleges found for "<strong>${q}</strong>"</div>`;
+    searchDropdown.classList.add("show");
+    return;
+  }
+
+  searchDropdown.innerHTML = results.slice(0,10).map(r => {
+    const typeClass = r.type === "Government University" || r.type === "Top Engineering College" ? "tag-govt"
+      : r.type === "Deemed-to-be University" ? "tag-deemed" : "tag-private";
+    return `<div class="search-result-item" onclick="openCollegeDetail('${r.key}'); searchDropdown.classList.remove('show'); heroSearchInput.value='${r.name.replace(/'/g,"\\'")}'"}>
+      <div class="sri-icon">🏫</div>
+      <div>
+        <div class="sri-name">${r.name}</div>
+        <div class="sri-meta">${r.location} · <span class="uni-tag ${typeClass}" style="margin:0;padding:2px 8px;font-size:.65rem;">${r.type}</span></div>
+      </div>
+    </div>`;
+  }).join("");
+
+  if(results.length > 10){
+    searchDropdown.innerHTML += `<div class="no-results">+ ${results.length - 10} more results. Try a narrower search.</div>`;
+  }
+  searchDropdown.classList.add("show");
+}
+
+function doHeroSearch(){
+  const q = heroSearchInput.value.trim().toLowerCase();
+  if(q) performSearch(q);
+}
+
+// ===========================
+// COLLEGE DETAIL MODAL
+// ===========================
+const typeTagClass = {
+  "Top Engineering College":"tag-govt",
+  "Government University":"tag-govt",
+  "Government Autonomous College":"tag-govt",
+  "Private University":"tag-private",
+  "Private Autonomous College":"tag-private",
+  "Private College":"tag-private",
+  "Deemed-to-be University":"tag-deemed"
+};
+
+function openCollegeDetail(key){
+  const info = collegeData[key];
+  if(!info) return;
+
+  document.getElementById("collegeModalLabel").textContent = info.rank
+    ? `#${info.rank}  ${info.name}` : info.name;
+  document.getElementById("collegeModalLoc").textContent = info.location;
+
+  const typeEl = document.getElementById("collegeModalType");
+  typeEl.textContent = info.type;
+  typeEl.className = "uni-tag " + (typeTagClass[info.type] || "tag-govt");
+
+  let extraHtml = `<p class="modal-desc mt-3" id="collegeModalDesc">${info.desc}</p>`;
+
+  if(info.established || info.affiliation){
+    extraHtml += `<div class="d-flex gap-2 flex-wrap mt-3">`;
+    if(info.established) extraHtml += `<span class="uni-tag" style="background:#f0fdf4;color:#166534;">🏫 Est. ${info.established}</span>`;
+    if(info.affiliation) extraHtml += `<span class="uni-tag" style="background:#f8fafc;color:#475569;">🔗 ${info.affiliation}</span>`;
+    extraHtml += `</div>`;
+  }
+
+  if(info.branches && info.branches.length > 0){
+    extraHtml += `<div class="mt-3"><strong style="font-size:.85rem;color:var(--ink);">📚 Branches Offered</strong><div class="d-flex flex-wrap gap-2 mt-2">`;
+    info.branches.forEach(b => {
+      extraHtml += `<span class="uni-tag" style="background:#eef2ff;color:var(--primary-dark);">${b}</span>`;
+    });
+    extraHtml += `</div></div>`;
+  }
+
+  extraHtml += `<div class="modal-note mt-3">For detailed courses, fees, eligibility and admission process, please check the official college/university website.</div>`;
+
+  document.querySelector(".college-modal .modal-body").innerHTML = `
+    <p class="modal-loc">${info.location}</p>
+    <span class="uni-tag ${typeTagClass[info.type]||'tag-govt'}">${info.type}</span>
+    ${extraHtml}`;
+
+  new bootstrap.Modal(document.getElementById("collegeModal")).show();
+}
+
+// ===========================
+// EAPCET FILTER
+// ===========================
+function filterEapcetTable(){
+  const searchVal = document.getElementById("eapcetSearch").value.trim().toLowerCase();
+  const regionVal = document.getElementById("eapcetRegion").value;
+  const rows = document.querySelectorAll("#eapcetTbody .eapcet-row");
+  let visible = 0;
+
+  rows.forEach(row => {
+    const matchesSearch = !searchVal || row.dataset.search.includes(searchVal);
+    const matchesRegion = regionVal === "all" || row.dataset.region === regionVal;
+    if(matchesSearch && matchesRegion){ row.classList.remove("d-none-row"); visible++; }
+    else row.classList.add("d-none-row");
+  });
+
+  const countEl = document.getElementById("eapcetCount");
+  if(countEl) countEl.textContent = `${visible} college${visible===1?"":"s"}`;
+}
+
+document.getElementById("eapcetSearch").addEventListener("input", filterEapcetTable);
+document.getElementById("eapcetRegion").addEventListener("change", filterEapcetTable);
+
+document.querySelectorAll(".eapcet-row").forEach(row => {
+  row.addEventListener("keydown", function(e){
+    if(e.key==="Enter"||e.key===" "){ e.preventDefault(); this.click(); }
+  });
+});
+
+document.querySelectorAll(".rank-card, .uni-card").forEach(card => {
+  card.addEventListener("keydown", function(e){
+    if(e.key==="Enter"||e.key===" "){ e.preventDefault(); this.click(); }
+  });
+});
+
+// ===========================
+// CHATBOT
+// ===========================
+function toggleChat(){
+  const chatbox = document.getElementById("chatbox");
+  chatbox.style.display = chatbox.style.display === "flex" ? "none" : "flex";
+}
+
+// Preset sizes
+const chatSizes = {
+  small: { width:"340px", height:"460px" },
+  medium: { width:"460px", height:"640px" },
+  large: { width:"600px", height:"82vh" }
+};
+
+function resizeChat(size){
+  const chatbox = document.getElementById("chatbox");
+  chatbox.style.width = chatSizes[size].width;
+  chatbox.style.height = chatSizes[size].height;
+}
+
+// ===== DRAG: CHATBOX HEADER =====
+const chatBox = document.getElementById("chatbox");
+const header = document.getElementById("chatHeader");
+let isDragging = false, offsetX = 0, offsetY = 0;
+
+header.addEventListener("mousedown", e => {
+  if(e.target.closest("button")) return;
+  isDragging = true;
+  offsetX = e.clientX - chatBox.offsetLeft;
+  offsetY = e.clientY - chatBox.offsetTop;
+});
+document.addEventListener("mousemove", e => {
+  if(!isDragging) return;
+  const x = Math.max(0, Math.min(e.clientX - offsetX, window.innerWidth - chatBox.offsetWidth));
+  const y = Math.max(0, Math.min(e.clientY - offsetY, window.innerHeight - chatBox.offsetHeight));
+  chatBox.style.left = x + "px";
+  chatBox.style.top = y + "px";
+  chatBox.style.right = "auto";
+  chatBox.style.bottom = "auto";
+});
+document.addEventListener("mouseup", () => isDragging = false);
+
+// Touch drag — chatbox header
+header.addEventListener("touchstart", e => {
+  if(e.target.closest("button")) return;
+  const t = e.touches[0];
+  isDragging = true;
+  offsetX = t.clientX - chatBox.offsetLeft;
+  offsetY = t.clientY - chatBox.offsetTop;
+}, { passive:true });
+document.addEventListener("touchmove", e => {
+  if(!isDragging && !isBtnDragging) return;
+  e.preventDefault();
+}, { passive:false });
+document.addEventListener("touchend", () => { isDragging = false; });
+
+// ===== DRAG: CHATBOT BUTTON =====
+const chatBtn = document.querySelector(".chatbot-btn");
+let isBtnDragging = false;
+let btnOffsetX = 0, btnOffsetY = 0;
+let btnStartX = 0, btnStartY = 0;
+let btnMoved = false;
+
+function startBtnDrag(clientX, clientY){
+  isBtnDragging = true;
+  btnMoved = false;
+  btnStartX = clientX;
+  btnStartY = clientY;
+  const rect = chatBtn.getBoundingClientRect();
+  btnOffsetX = clientX - rect.left;
+  btnOffsetY = clientY - rect.top;
+  chatBtn.classList.add("dragging");
+}
+
+function moveBtnDrag(clientX, clientY){
+  if(!isBtnDragging) return;
+  const dx = Math.abs(clientX - btnStartX);
+  const dy = Math.abs(clientY - btnStartY);
+  if(dx > 4 || dy > 4) btnMoved = true;
+
+  const x = Math.max(0, Math.min(clientX - btnOffsetX, window.innerWidth - chatBtn.offsetWidth));
+  const y = Math.max(0, Math.min(clientY - btnOffsetY, window.innerHeight - chatBtn.offsetHeight));
+  chatBtn.style.left = x + "px";
+  chatBtn.style.top = y + "px";
+  chatBtn.style.right = "auto";
+  chatBtn.style.bottom = "auto";
+
+  // Keep chatbox pinned near button if open
+  if(chatBox.style.display === "flex"){
+    const gap = 10;
+    const boxW = chatBox.offsetWidth;
+    const boxH = chatBox.offsetHeight;
+    let bx = x - boxW - gap;
+    if(bx < 0) bx = x + chatBtn.offsetWidth + gap;
+    let by = y - boxH + chatBtn.offsetHeight;
+    by = Math.max(gap, Math.min(by, window.innerHeight - boxH - gap));
+    chatBox.style.left = bx + "px";
+    chatBox.style.top = by + "px";
+    chatBox.style.right = "auto";
+    chatBox.style.bottom = "auto";
+  }
+}
+
+function endBtnDrag(){
+  chatBtn.classList.remove("dragging");
+  if(!btnMoved) toggleChat(); // tap = toggle
+  isBtnDragging = false;
+}
+
+// Mouse
+chatBtn.addEventListener("mousedown", e => { e.preventDefault(); startBtnDrag(e.clientX, e.clientY); });
+document.addEventListener("mousemove", e => { if(isBtnDragging) moveBtnDrag(e.clientX, e.clientY); });
+document.addEventListener("mouseup", e => { if(isBtnDragging) endBtnDrag(); });
+
+// Touch
+chatBtn.addEventListener("touchstart", e => {
+  const t = e.touches[0];
+  startBtnDrag(t.clientX, t.clientY);
+}, { passive:true });
+document.addEventListener("touchmove", e => {
+  if(isBtnDragging){
+    const t = e.touches[0];
+    moveBtnDrag(t.clientX, t.clientY);
+  } else if(isDragging){
+    const t = e.touches[0];
+    const x = Math.max(0, Math.min(t.clientX - offsetX, window.innerWidth - chatBox.offsetWidth));
+    const y = Math.max(0, Math.min(t.clientY - offsetY, window.innerHeight - chatBox.offsetHeight));
+    chatBox.style.left = x + "px";
+    chatBox.style.top = y + "px";
+    chatBox.style.right = "auto";
+    chatBox.style.bottom = "auto";
+  }
+}, { passive:true });
+document.addEventListener("touchend", () => {
+  if(isBtnDragging) endBtnDrag();
+  isDragging = false;
+});
+
+// Chatbot AI
+let suggestTimer2;
+document.getElementById("userInput").addEventListener("input", function(){
+  clearTimeout(suggestTimer2);
+  const query = this.value.trim();
+  const suggestionsBox = document.getElementById("suggestions");
+  if(query.length < 2){ suggestionsBox.innerHTML = ""; return; }
+  suggestTimer2 = setTimeout(async () => {
+    try{
+      const response = await fetch("http://10.44.45.187:5000/suggest", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ query })
+      });
+      const data = await response.json();
+      suggestionsBox.innerHTML = "";
+      (data.suggestions || []).forEach(s => {
+        const chip = document.createElement("span");
+        chip.className = "suggestion-chip";
+        chip.textContent = s;
+        chip.onclick = () => { document.getElementById("userInput").value = s; suggestionsBox.innerHTML = ""; askAI(); };
+        suggestionsBox.appendChild(chip);
+      });
+    } catch(err){ /* silent */ }
+  }, 700);
+});
+
+async function askAI(){
+  const input = document.getElementById("userInput");
+  const message = input.value.trim();
+  if(!message) return;
+  input.value = "";
+  document.getElementById("suggestions").innerHTML = "";
+
+  const messages = document.getElementById("messages");
+  messages.innerHTML += `<div class="user-message">${message}</div>`;
+
+  const loadingId = "loading-" + Date.now();
+  messages.innerHTML += `<div id="${loadingId}" class="ai-message">🤖 Typing...</div>`;
+  messages.scrollTop = messages.scrollHeight;
+
+  try{
+    const response = await fetch("http://10.44.45.187:5000/chat", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ message })
+    });
+    const data = await response.json();
+    document.getElementById(loadingId)?.remove();
+    messages.innerHTML += `<div class="ai-message">${data.reply.replace(/\n/g,"<br>")}</div>`;
+  } catch(error){
+    document.getElementById(loadingId)?.remove();
+    messages.innerHTML += `<div class="ai-message">⚠️ Server busy. Please try again in a few seconds.</div>`;
+  }
+  messages.scrollTop = messages.scrollHeight;
+  input.focus();
+}
+
+document.getElementById("userInput").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){ e.preventDefault(); askAI(); }
+});
+</script>
+</body>
+</html>
